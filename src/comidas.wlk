@@ -1,39 +1,87 @@
 import wollok.game.*
 import pepita.*
+import roque.*
 
 object manzana {
-	var existe = true
+	
+	
+	var posicion = game.at(5,1)
+	
 	method image() = "manzana.png"
-	method existe() = existe
-	method position() = game.at(5,1)
+	method position() = posicion
 	method energia() = 80
 	method nombre() = "Manzana"
-	method teEncontro(pepita) {
-			self.teComieron()
-			pepita.come(self)
+	
+	method nuevaPosicion(){ posicion = game.at(0.randomUpTo(9), 0.randomUpTo(9) ) }
+	
+	method respawn(){
+			self.nuevaPosicion()
+			game.addVisual(self)
 	}
-	method teComieron(){
+	
+	method teEncontro(roque) {
+		
+		self.teComieron()
+		roque.setComida(self)
+			
+	}
+	
+	method desaparece(){
 		game.removeVisual(self)
-		pepita.come(self)
-		existe=false
+		roque.setComida(self)
 	}
+	
+	method teComieron(){
+					roque.comidaGuardada().respawn()
+					self.desaparece()
+					roque.setComida(self)
+					
+	}
+		
+}
+object nulo{
+	method desaparece(){}
+	method teComieron(){}
+	method teEncontro(roque){}
+	method respawn(){}
+	method energia(){return 0}
 }
 
 object alpiste {
-	var existe = true
+	
+	var posicion = game.at(5,5)
 	method image() = "alpiste.png"
-	method existe() = existe
-	method position() = game.at(5,5)
+	
+	method position() = posicion
 	method energia() = 5
 	method nombre() = "Alpiste"
-	method teEncontro(pepita) {
-			self.teComieron()
-			pepita.come(self)
-	}
-	method teComieron(){
-		game.removeVisual(self)
-		pepita.come(self)
-		existe=false
+	
+	method nuevaPosicion(){ posicion = game.at(0.randomUpTo(9), 0.randomUpTo(9) ) }
+	
+	method respawn(){
+			self.nuevaPosicion()
+			game.addVisual(self)
 	}
 	
+	method teEncontro(roque) {
+		
+		self.teComieron()
+		roque.setComida(self)
+			
+	}
+	
+	method desaparece(){
+		game.removeVisual(self)
+		roque.setComida(self)
+	}
+	
+	method teComieron(){
+		
+					roque.comidaGuardada().respawn()
+					self.desaparece()
+					roque.setComida(self)
+	
+	}
 }
+	
+
